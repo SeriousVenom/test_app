@@ -35,53 +35,41 @@ class _NewsView extends State<NewsView> {
   }
 
   _sportNewsView(BuildContext context, SportNewsViewModel model) {
-    return model.loader == true
-        ? const Center(
-            child: CircularProgressIndicator(
-              color: Colors.blueGrey,
-            ),
-          )
-        : ListView(
-            padding: const EdgeInsets.only(left: 15, right: 15, top: 70),
-            children: [
-              Align(
-                alignment: Alignment.centerLeft,
-                child: IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: const Icon(Icons.arrow_back)),
-              ),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: model.newsModel!.articles![widget.index!].urlToImage !=
-                        null
-                    ? Image.network(
-                        model.newsModel!.articles![widget.index!].urlToImage!,
-                        errorBuilder: (context, url, error) => const SizedBox())
-                    : const SizedBox(),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Text(
-                model.newsModel!.articles?[widget.index!].title ?? '',
-                style:
-                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Text(
-                model.newsModel!.articles?[widget.index!].description ?? '',
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Text(
-                'Published at: ${model.newsModel!.articles?[widget.index!].publishedAt!.substring(0, 10) ?? ''}',
-              ),
-            ],
-          );
+    return ListView(
+      padding: const EdgeInsets.only(left: 15, right: 15, top: 70),
+      children: [
+        Align(
+          alignment: Alignment.centerLeft,
+          child: IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: const Icon(Icons.arrow_back)),
+        ),
+        ClipRRect(
+          borderRadius: BorderRadius.circular(10),
+          child: Image.asset(model.newsImage[widget.index!]),
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        Text(
+          model.newsTittle[widget.index!],
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        Text(
+          model.newsDescription[widget.index!],
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        Text(
+          'Published at: ${model.newsDate[widget.index!]}',
+        ),
+      ],
+    );
   }
 }
