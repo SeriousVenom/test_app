@@ -44,7 +44,9 @@ _sportNewsView(BuildContext context, SportNewsViewModel model) {
           child: Padding(
             padding: const EdgeInsets.only(left: 15),
             child: GestureDetector(
-              onTap: () {},
+              onTap: () {
+                model.remoteConfig();
+              },
               child: const Icon(Icons.refresh),
             ),
           ),
