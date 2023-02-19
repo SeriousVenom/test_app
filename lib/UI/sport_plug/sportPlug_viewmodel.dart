@@ -1,12 +1,10 @@
 import 'dart:convert';
 import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:flutter/cupertino.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:stacked/stacked.dart';
-import 'package:test_app/UI/sport_plug/sportPlug_model.dart';
 
 import 'newsPlug_view.dart';
 
@@ -84,17 +82,6 @@ class SportNewsViewModel extends BaseViewModel {
   ];
 
   Future onReady() async {}
-
-  void remoteConfig() async {
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
-    // final remoteConfig = FirebaseRemoteConfig.instance;
-    // await remoteConfig.setConfigSettings(RemoteConfigSettings(
-    //   fetchTimeout: const Duration(minutes: 1),
-    //   minimumFetchInterval: const Duration(hours: 1),
-    // ));
-  }
 
   void choiceNewsIndex(context, index) {
     Navigator.push(
