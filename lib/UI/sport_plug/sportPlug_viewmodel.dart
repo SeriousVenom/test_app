@@ -1,11 +1,5 @@
-import 'dart:convert';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:stacked/stacked.dart';
-
 import 'newsPlug_view.dart';
 
 class SportNewsViewModel extends BaseViewModel {

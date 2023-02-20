@@ -1,10 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-import 'UI/mainScreen/mainScreen_view.dart';
-import 'UI/sport_plug/sportPlug_view.dart';
-import 'UI/webview/webView_view.dart';
+import 'appRoute.dart';
 
 void main() {
   HttpOverrides.global = MyHttpOverrides();
@@ -20,7 +17,7 @@ class App extends StatelessWidget {
         const SystemUiOverlayStyle(statusBarBrightness: Brightness.light));
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const MainScreenView(),
+      home: AppRouteView(),
     );
   }
 }

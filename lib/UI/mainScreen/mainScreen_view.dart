@@ -22,17 +22,19 @@ class _MainScreenView extends State<MainScreenView> {
         return AnnotatedRegion<SystemUiOverlayStyle>(
             value: const SystemUiOverlayStyle(
                 statusBarColor: Colors.transparent,
-                statusBarIconBrightness: Brightness.dark),
+                statusBarIconBrightness: Brightness.light),
             child: WillPopScope(
               onWillPop: () async {
                 model.controller!.goBack();
                 return false;
               },
-              child: Scaffold(
-                extendBody: true,
-                extendBodyBehindAppBar: true,
-                //bottomNavigationBar: customBottomBar(context, model),
-                body: _mainScreenView(context, model),
+              child: SafeArea(
+                child: Scaffold(
+                  extendBody: true,
+                  extendBodyBehindAppBar: true,
+                  //bottomNavigationBar: customBottomBar(context, model),
+                  body: _mainScreenView(context, model),
+                ),
               ),
             ));
       },
@@ -40,8 +42,6 @@ class _MainScreenView extends State<MainScreenView> {
   }
 
   _mainScreenView(BuildContext context, MainScreenViewModel model) {
-    return model.isLoading
-        ? Center(child: CircularProgressIndicator())
-        : WebViewWidget(controller: model.controller!);
+    return WebViewWidget(controller: model.controller!);
   }
 }

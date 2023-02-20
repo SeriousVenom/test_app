@@ -1,53 +1,23 @@
+import 'dart:io';
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:stacked/stacked.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-import '../sport_plug/sportPlug_view.dart';
-
 class MainScreenViewModel extends BaseViewModel {
   MainScreenViewModel(BuildContext context);
-  bool isLoading = true;
-  String? customURL;
   String? appURL;
   final storage = const FlutterSecureStorage();
   WebViewController? controller;
 
   Future onReady(context) async {
-    checkFunc(context);
+    webViewStart(context);
   }
 
-  checkFunc(context) async {
-    appURL = await storage.read(key: 'url1');
-    if (appURL == null || appURL == '') {
-      await Firebase.initializeApp();
-      final remoteConfig = FirebaseRemoteConfig.instance;
-      await remoteConfig.setConfigSettings(RemoteConfigSettings(
-        fetchTimeout: const Duration(seconds: 1),
-        minimumFetchInterval: const Duration(seconds: 1),
-      ));
-      await remoteConfig.fetchAndActivate();
-      customURL = remoteConfig.getString('customURL1');
-      var isEmu = await checkIsEmu();
-      print(customURL);
-      print(isEmu);
-
-      // if (customURL != '' || isEmu == true) {
-      //   print('NOT WEBVIEW');
-      //   Navigator.push(
-      //     context,
-      //     MaterialPageRoute(builder: (context) => SportNewsView()),
-      //   );
-      // } else {
-      //   await storage.write(key: 'url1', value: customURL);
-      // }
-    }
-    isLoading = false;
-
+  webViewStart(context) async {
+    appURL = await storage.read(key: "url1");
     controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setBackgroundColor(const Color(0x00000000))
@@ -60,16 +30,26 @@ class MainScreenViewModel extends BaseViewModel {
           onPageFinished: (String url) {},
           onWebResourceError: (WebResourceError error) {},
           onNavigationRequest: (NavigationRequest request) {
-            if (request.url.startsWith(customURL!)) {
+            if (request.url.startsWith(appURL!)) {
               return NavigationDecision.prevent;
             }
             return NavigationDecision.navigate;
           },
         ),
       )
-      ..loadRequest(Uri.parse(customURL!));
-    print(appURL);
+      ..loadRequest(Uri.parse(appURL!));
     notifyListeners();
+  }
+
+  Future internetCheck() async {
+    try {
+      final result = await InternetAddress.lookup('google.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        return true;
+      }
+    } on SocketException catch (_) {
+      return false;
+    }
   }
 
   checkIsEmu() async {
@@ -104,19 +84,5 @@ class MainScreenViewModel extends BaseViewModel {
     if (result) return true;
     result = result || ("google_sdk" == buildProduct);
     return result;
-  }
-
-  void remoteConfig() async {
-    await Firebase.initializeApp();
-    final remoteConfig = FirebaseRemoteConfig.instance;
-    await remoteConfig.setConfigSettings(RemoteConfigSettings(
-      fetchTimeout: const Duration(seconds: 5),
-      minimumFetchInterval: const Duration(seconds: 5),
-    ));
-    await remoteConfig.fetchAndActivate();
-    customURL = remoteConfig.getString('customURL1');
-    await storage.write(key: 'url', value: customURL);
-    print(customURL);
-    notifyListeners();
   }
 }
