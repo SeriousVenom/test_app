@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "1019549676650",
-    "project_id": "mytestapp-7f779",
-    "storage_bucket": "mytestapp-7f779.appspot.com"
+    "project_number": "732128753903",
+    "project_id": "miolki",
+    "storage_bucket": "miolki.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1019549676650:android:db205c40f1f3aee85fc613",
+        "mobilesdk_app_id": "1:732128753903:android:4e23afc197ebdab413431a",
         "android_client_info": {
-          "package_name": "com.test.app.test_app"
+          "package_name": "sestol.gathe"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1019549676650-ilo45n6o5lscb42h8s23gjkrrbnk4s3i.apps.googleusercontent.com",
+          "client_id": "732128753903-23v5nnbr6e6o15skuadf6oqaoe4839mg.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBFPzqW3bRPfHvsIvOLpR94HhK1YYchpto"
+          "current_key": "AIzaSyB8S1hu0Uj_bln_7kB1yMUdRV3NjMxclXg"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1019549676650-ilo45n6o5lscb42h8s23gjkrrbnk4s3i.apps.googleusercontent.com",
+              "client_id": "732128753903-23v5nnbr6e6o15skuadf6oqaoe4839mg.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -21,11 +21,16 @@ class _SportNewsView extends State<SportNewsView> {
           value: const SystemUiOverlayStyle(
               statusBarColor: Colors.transparent,
               statusBarIconBrightness: Brightness.dark),
-          child: Scaffold(
-            extendBody: true,
-            extendBodyBehindAppBar: true,
-            //bottomNavigationBar: customBottomBar(context, model),
-            body: _sportNewsView(context, model),
+          child: WillPopScope(
+            onWillPop: () async {
+              return false;
+            },
+            child: Scaffold(
+              extendBody: true,
+              extendBodyBehindAppBar: true,
+              //bottomNavigationBar: customBottomBar(context, model),
+              body: _sportNewsView(context, model),
+            ),
           ),
         );
       },

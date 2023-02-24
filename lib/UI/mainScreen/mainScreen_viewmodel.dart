@@ -8,8 +8,9 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 class MainScreenViewModel extends BaseViewModel {
   MainScreenViewModel(BuildContext context);
-  String? appURL;
+  String appURL = '';
   final storage = const FlutterSecureStorage();
+  bool isLoader = true;
   WebViewController? controller;
 
   Future onReady(context) async {
@@ -17,27 +18,15 @@ class MainScreenViewModel extends BaseViewModel {
   }
 
   webViewStart(context) async {
-    appURL = await storage.read(key: "url1");
+    String? tempURL = await storage.read(key: "url1");
+    appURL = tempURL!;
+
+    print('APP URL:: $appURL');
     controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..setBackgroundColor(const Color(0x00000000))
-      ..setNavigationDelegate(
-        NavigationDelegate(
-          onProgress: (int progress) {
-            // Update loading bar.
-          },
-          onPageStarted: (String url) {},
-          onPageFinished: (String url) {},
-          onWebResourceError: (WebResourceError error) {},
-          onNavigationRequest: (NavigationRequest request) {
-            if (request.url.startsWith(appURL!)) {
-              return NavigationDecision.prevent;
-            }
-            return NavigationDecision.navigate;
-          },
-        ),
-      )
-      ..loadRequest(Uri.parse(appURL!));
+      ..setBackgroundColor(Colors.white)
+      ..loadRequest(Uri.parse(appURL));
+    isLoader = false;
     notifyListeners();
   }
 

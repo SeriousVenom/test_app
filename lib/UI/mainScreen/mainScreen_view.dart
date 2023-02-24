@@ -25,7 +25,7 @@ class _MainScreenView extends State<MainScreenView> {
                 statusBarIconBrightness: Brightness.light),
             child: WillPopScope(
               onWillPop: () async {
-                model.controller!.goBack();
+                model.controller?.goBack();
                 return false;
               },
               child: SafeArea(

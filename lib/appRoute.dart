@@ -20,6 +20,7 @@ class _MyHomePageState extends State<AppRouteView>
     with SingleTickerProviderStateMixin {
   @override
   void initState() {
+    super.initState();
     appRoute(context);
   }
 
@@ -27,7 +28,6 @@ class _MyHomePageState extends State<AppRouteView>
   Widget build(BuildContext context) {
     return Container(
       color: Colors.white,
-      child: const Center(),
     );
   }
 }
@@ -41,29 +41,29 @@ appRoute(context) async {
   bool isEmu = await checkIsEmu();
 
   if (webCheck == true) {
-    if (appURL == null || appURL == '') {
-      await Firebase.initializeApp();
-      final remoteConfig = FirebaseRemoteConfig.instance;
-      await remoteConfig.setConfigSettings(RemoteConfigSettings(
-        fetchTimeout: const Duration(milliseconds: 5),
-        minimumFetchInterval: const Duration(milliseconds: 5),
-      ));
-      await remoteConfig.fetchAndActivate();
-      customURL = remoteConfig.getString('customURL1');
-      if (customURL == '' || isEmu == true) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const SportNewsView()),
-        );
-      } else if (customURL != '' || isEmu == false) {
-        await storage.write(key: "url1", value: customURL);
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const MainScreenView()),
-        );
-      }
-    } else if (isEmu == false) {
-      if (appURL.isNotEmpty || appURL != '') {
+    if (isEmu == false) {
+      if (appURL == null || appURL == '') {
+        await Firebase.initializeApp();
+        final remoteConfig = FirebaseRemoteConfig.instance;
+        await remoteConfig.setConfigSettings(RemoteConfigSettings(
+          fetchTimeout: const Duration(milliseconds: 5),
+          minimumFetchInterval: const Duration(seconds: 5),
+        ));
+        await remoteConfig.fetchAndActivate();
+        customURL = remoteConfig.getString('url');
+        if (customURL == '' || customURL.isEmpty) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const SportNewsView()),
+          );
+        } else if (customURL != '' || customURL.isNotEmpty) {
+          await storage.write(key: "url1", value: customURL);
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const MainScreenView()),
+          );
+        }
+      } else {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => const MainScreenView()),
@@ -87,9 +87,13 @@ Future internetCheck() async {
   try {
     final result = await InternetAddress.lookup('google.com');
     if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+      print('web work');
+
       return true;
     }
   } on SocketException catch (_) {
+    print('web work');
+
     return false;
   }
 }
